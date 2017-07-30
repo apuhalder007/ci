@@ -55,3 +55,5 @@ $route['translate_uri_dashes'] = FALSE;
 
 $route['welcome/(:any)/(:any)'] = 'welcome/index/$1/$2';
 $route['users/(:num)'] = 'users/index/$1';
+
+$route['(:any)/testlanguage'] = 'testLanguage';

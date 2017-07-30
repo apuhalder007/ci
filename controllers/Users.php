@@ -114,38 +114,49 @@ class Users extends CI_Controller
 	}
 
 	function do_update(){
-		echo '<pre>';
-		print_r($_POST);
-		echo '</pre>';
+		//echo '<pre>';
+		//print_r($_POST);
+		//echo '</pre>';
+		$this->form_validation->set_rules('fname', 'first name', 'trim|required');
+		$this->form_validation->set_rules('lname', 'last name', 'trim|required');
+		$this->form_validation->set_rules('email', 'email', 'trim|required');
+		$this->form_validation->set_rules('username', 'username', 'trim|required');
+		$this->form_validation->set_rules('id', 'id', 'trim|required');
+		$this->form_validation->set_rules('old_image', 'old image', 'trim');
+		if($this->form_validation->run() == TRUE){
+			$id = $this->input->post('id');
+			$data['fname'] = $this->input->post('fname');
+			$data['lname'] = $this->input->post('lname');
+			$data['email'] = $this->input->post('email');
+			$data['username'] = $this->input->post('username');
 
-		$id = $this->input->post('id');
-		$data['fname'] = $this->input->post('fname');
-		$data['lname'] = $this->input->post('lname');
-		$data['email'] = $this->input->post('email');
-		$data['username'] = $this->input->post('username');
+			$config = array( 
+						'upload_path' => './assets/user_images/', 
+						'allowed_types' => 'jpg|jpeg|png|gif'
+					);
 
-		$config = array( 
-					'upload_path' => './assets/user_images/', 
-					'allowed_types' => 'jpg|jpeg|png|gif'
-				);
+			$this->load->library('upload',$config);
 
-		$this->load->library('upload',$config);
-
-		if($this->upload->do_upload('user_image')){
-			$upload_data  = $this->upload->data();
-			$user_image = $upload_data['file_name']; 
-			$data['image'] = $user_image;			
-		}
+			if($this->upload->do_upload('user_image')){
+				$upload_data  = $this->upload->data();
+				$user_image = $upload_data['file_name']; 
+				$data['image'] = $user_image;			
+			}
 
 
-		if($this->users_m->update_user($id, $data)){
-			$this->session->set_flashdata('done', 'Update Successfull');
-			redirect('users');
+			if($this->users_m->update_user($id, $data)){
+				$this->session->set_flashdata('done', 'Update Successfull');
+				redirect('users');
+
+			}else{
+
+				$this->session->set_flashdata('error', 'Update not done');
+				redirect('users');
+			}
 
 		}else{
-
-			$this->session->set_flashdata('error', 'Update not done');
-			redirect('users');
+			$data['title'] = 'User Edit';
+			$this->load->view('users/user_edit', $data);
 		}
 	}
 

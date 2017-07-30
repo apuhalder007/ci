@@ -5,7 +5,7 @@
     <link rel="stylesheet" type="text/css" href="//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css">
 
 <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-<link rel="stylesheet" type="text/css" href="assets/css/users/styles.css">
+<link rel="stylesheet" type="text/css" href="<?php echo base_url();?>/assets/css/users/styles.css">
 </head>
 <body>
 <hr>
@@ -69,7 +69,7 @@
                                 <tr>
                                     <td>
                                         <?php if($user['image']):?>
-                                            <img src="<?php echo base_url('assets/user_images/'.$user['image']);?>" class="avatar img-circle" alt="avatar" width="150" height="150">
+                                            <img src="<?php echo base_url('assets/user_images/'.$user['image']);?>" class="avatar img-circle" alt="avatar" >
                                         <?php else: ?>
                                             <img src="https://bootdey.com/img/Content/user_1.jpg" alt="avatar">
                                         <?php endif;?>
